@@ -1,8 +1,15 @@
 import spiders.episode_crawler as episode
 import spiders.works_crawler as work
+import os
 from scrapy.crawler import CrawlerProcess
 
 def main():
+    
+    try:
+        os.mkdir('data')
+    except OSError as error:
+        print(error)
+            
     process = CrawlerProcess({
     })
     dicts = [
