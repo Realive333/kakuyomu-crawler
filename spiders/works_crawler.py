@@ -1,6 +1,8 @@
 import scrapy
 import os
 import csv
+import datetime
+import json
 
 class WorksSpider(scrapy.Spider):
     name = "works"
@@ -25,5 +27,14 @@ class WorksSpider(scrapy.Spider):
         with open(self.path+'/herfs.csv', 'w') as f:
             write = csv.writer(f)
             write.writerow(episodes)
+            
+        with open(self.path+'/record.json', 'w') as f:
+            now = datetime.datetime.now()
+            url = self.start_urls
+            data = {
+                "time" : now.strftime("%Y/%m/%d, %H:%M:%S"),
+                "url" : url
+            }
+            json.dump(data,f)
         
         self.log(f'saved file {self.path}')

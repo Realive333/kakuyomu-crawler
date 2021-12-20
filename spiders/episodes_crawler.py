@@ -1,5 +1,7 @@
 import scrapy
 import csv
+import datetime
+import json
 
 class EpisodesSpider(scrapy.Spider):
     name = "episodes"
@@ -18,6 +20,15 @@ class EpisodesSpider(scrapy.Spider):
             self.start_urls.append(url)
             
         self.path = f'./works/{query}/episodes'
+                
+        with open(self.path+'/record.json', 'w') as f:
+            now = datetime.datetime.now()
+            url = self.start_urls
+            data = {
+                "time" : now.strftime("%Y/%m/%d, %H:%M:%S"),
+                "url" : url
+            }
+            json.dump(data,f)
     
     def parse(self, response):
         filename = f'{response.url.split("/")[-1]}.html'
