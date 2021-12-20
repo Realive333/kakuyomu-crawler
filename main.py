@@ -1,25 +1,16 @@
-import spiders.episode_crawler as episode
-import spiders.works_crawler as work
+import package.traveler as traveler
 import os
-from scrapy.crawler import CrawlerProcess
 
 def main():
     
     try:
-        os.mkdir('data')
+        os.mkdir('works')
     except OSError as error:
         print(error)
-            
-    process = CrawlerProcess({
-    })
-    dicts = [
-        {"works": "1177354054880238351", "episodes":"1177354054880238419"},
-        {"works": "1177354054880238351", "episodes":"1177354054880289448"}
-    ]
     
-    process.crawl(work.WorkSpider, query='1177354054880238351')
-    #process.crawl(episode.EpisodeSpider, query=dicts)
-    process.start()
+    t1 = traveler.Traveler(query = "1177354054880238351")
+    t1.travasal()
+    
     
 if __name__ == '__main__':
     main()

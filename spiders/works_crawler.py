@@ -2,31 +2,28 @@ import scrapy
 import os
 import csv
 
-class WorkSpider(scrapy.Spider):
+class WorksSpider(scrapy.Spider):
     name = "works"
     allowed_domains = "kakuyomu.jp"
     
-    def __init__(self, query='', *args, **kwargs):
-        super(WorkSpider, self).__init__(*args, **kwargs)
+    def __init__(self, query='', path='', *args, **kwargs):
+        super(WorksSpider, self).__init__(*args, **kwargs)
         self.start_urls = ['https://kakuyomu.jp/works/' + query]
-        
-    def parse(self, response):
-        title = response.css('title::text').get()
-        stars = response.xpath("//p[@id='workPoints']/a/span/text()").get()
-        episodes = response.xpath("//li[@class='widget-toc-episode']/a/@href").extract()
-        
+        self.path = './works/' + query
         try:
-            os.mkdir('./data/'+title)
+            os.mkdir(path)
         except OSError as error:
             print(error)
+        
+    def parse(self, response):
+        stars = response.xpath("//p[@id='workPoints']/a/span/text()").get()
+        episodes = response.xpath("//li[@class='widget-toc-episode']/a/@href").extract()
             
-        with open('./data/'+title+'/abstract.html', 'wb') as f:
+        with open(self.path+'/abstract.html', 'wb') as f:
             f.write(response.body)
-        f.close()
         
-        with open('data/'+title+'/herfs.csv', 'w') as f2:
-            write = csv.writer(f2)
+        with open(self.path+'/herfs.csv', 'w') as f:
+            write = csv.writer(f)
             write.writerow(episodes)
-        f2.close()
         
-        self.log(f'saved file {title}')
+        self.log(f'saved file {self.path}')
