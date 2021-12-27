@@ -17,6 +17,7 @@ def getStartURL(year, month):
     return [f'https://kakuyomu.jp/search?total_review_point_range=10-&published_date_range=custom&published_date_start={startDate}&published_date_end={endDate}&order=published_at&page=1']
 
 class SearchSpider(scrapy.Spider):
+    download_delay = 1
     name = "search"
     path = "./search/"        
     
@@ -52,6 +53,4 @@ class SearchSpider(scrapy.Spider):
        
         nextPage = response.xpath("//p[@class='widget-pagerNext']/a/@href").get() 
         if nextPage is not None:
-            if nextPage is not None:
-                sleep(1)
-                yield response.follow(nextPage, callback=self.parse) 
+            yield response.follow(nextPage, callback=self.parse) 
