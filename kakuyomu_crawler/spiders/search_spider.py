@@ -3,18 +3,32 @@ import os
 import csv
 import datetime
 import json
+import calendar
+from time import sleep
 
+def getStartURL(year, month):
+    try:
+        intYear = int(year)
+        intMonth = int(month)
+    except TypeError:
+        print(f'Error while casting str to int: {year}-{month}')
+    startDate = f'{year}-{month}-01'
+    endDate = f'{year}-{month}-{calendar.monthrange(intYear, intMonth)[1]}'
+    return [f'https://kakuyomu.jp/search?total_review_point_range=10-&published_date_range=custom&published_date_start={startDate}&published_date_end={endDate}&order=published_at&page=1']
 
 class SearchSpider(scrapy.Spider):
     name = "search"
     path = "./search/"        
-    start_urls = ["https://kakuyomu.jp/search?total_review_point_range=10-&published_date_range=custom&published_date_start=2021-01-01&published_date_end=2021-01-02&order=published_at&page=1"]
     
-    def __init__(self):
+    def __init__(self, year='2021', month='12', **kwargs):
+        super().__init__(**kwargs)
+        self.path = f'./search/{year}-{month}/'
         try:
             os.mkdir(self.path)
         except OSError as error:
             print(error)
+            
+        self.start_urls = getStartURL(year, month)
         
         
     def parse(self, response):
@@ -39,4 +53,5 @@ class SearchSpider(scrapy.Spider):
         nextPage = response.xpath("//p[@class='widget-pagerNext']/a/@href").get() 
         if nextPage is not None:
             if nextPage is not None:
-                yield response.follow(nextPage, callback=self.parse)
+                sleep(1)
+                yield response.follow(nextPage, callback=self.parse) 
