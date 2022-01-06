@@ -9,8 +9,10 @@ class WorksSpider(scrapy.Spider):
     name = 'works'
     download_delay = 1
     
-    def __init__(self, date='2021-12', **kwargs):
+    def __init__(self, id='', **kwargs):
         super().__init__(**kwargs)
+        self.start_urls=[f'https://kakuyomu.jp/works/{id}']
+        """
         try:
             with open(f'./search/{date}/herfs.csv', newline='') as f:
                 reader = csv.reader(f)
@@ -23,6 +25,7 @@ class WorksSpider(scrapy.Spider):
             for herf in row:
                 self.start_urls.append(f'https://kakuyomu.jp{herf}')
         #print(self.start_urls)
+        """
         
     def parse(self, response):
         work_dir = './works/' + response.url.split("/")[-1]
