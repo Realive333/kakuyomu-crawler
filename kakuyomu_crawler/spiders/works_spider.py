@@ -11,7 +11,7 @@ class WorksSpider(scrapy.Spider):
     
     def __init__(self, id='', **kwargs):
         super().__init__(**kwargs)
-        self.start_urls=[f'https://kakuyomu.jp/works/{id}']
+        self.start_urls=[f'https://kakuyomu.jp{id}']
         """
         try:
             with open(f'./search/{date}/herfs.csv', newline='') as f:
