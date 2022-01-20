@@ -45,7 +45,8 @@ class WorksSpider(scrapy.Spider):
             url = response.url
             data = {
                 "time" : now.strftime("%Y/%m/%d, %H:%M:%S"),
-                "url" : url
+                "url" : url,
+                "episodes" : episodes
             }
             json.dump(data,f)
             f.write('\n')
@@ -57,14 +58,16 @@ class WorksSpider(scrapy.Spider):
         work_dir = './works/' + response.url.split("/")[-3]
         with open(f'{work_dir}/{response.url.split("/")[-1]}.html', 'wb') as f:
             f.write(response.body)
-        
+        """
         with open(f'{work_dir}/record.json', 'a') as f:
             now = datetime.datetime.now()
             url = response.url
+            
             data = {
                 "time" : now.strftime("%Y/%m/%d, %H:%M:%S"),
                 "url" : url
             }
             json.dump(data,f)
+            
             f.write('\n')
-    
+        """
