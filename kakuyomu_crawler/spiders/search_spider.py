@@ -37,10 +37,14 @@ class SearchSpider(scrapy.Spider):
         with open(self.path+f'{response.url.split("=")[-1]}.html', 'wb') as f:
             f.write(response.body)
             
-        with open(self.path+'herfs.csv', 'a', newline='') as f:
+        with open(self.path+'herfs.dat', 'a', newline='') as f:
+            for r in works:
+                f.write(f'{r}\n')
+            """
             write = csv.writer(f)
-            write.writerow(works)
-        
+            for r in works:
+                write.writerow(r)
+            """
         with open(self.path+'record.json', 'a', newline='\n') as f:
             now = datetime.datetime.now()
             url = response.url
