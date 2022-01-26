@@ -14,7 +14,7 @@ NEWSPIDER_MODULE = 'kakuyomu_crawler.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'kakuyomu_crawler (+http://www.yourdomain.com)'
+USER_AGENT = 'kakuyomu_crawler (+https://forms.gle/wRVDZNV5agLdMJ298)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -25,8 +25,9 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 3
 # The download delay setting will honor only one of:
+CURRENT_REQUESTS = 1
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
 
